@@ -1,0 +1,2 @@
+include ':IRCTC-Android' , ':AndroidSlidingUpPanel:library'
+

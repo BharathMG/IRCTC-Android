@@ -1,0 +1,12 @@
+int attr collapsedHeight 0x7f010000
+int attr dragView 0x7f010004
+int attr fadeColor 0x7f010002
+int attr flingVelocity 0x7f010003
+int attr shadowHeight 0x7f010001
+int drawable above_shadow 0x7f020000
+int[] styleable SlidingUpPanelLayout { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004 }
+int styleable SlidingUpPanelLayout_collapsedHeight 0
+int styleable SlidingUpPanelLayout_dragView 4
+int styleable SlidingUpPanelLayout_fadeColor 2
+int styleable SlidingUpPanelLayout_flingVelocity 3
+int styleable SlidingUpPanelLayout_shadowHeight 1
