@@ -22,7 +22,7 @@ public class Home extends ActionBarActivity implements ActionBar.TabListener{
     private TabHomeAdapter mAdapter;
     private ActionBar actionBar;
     // Tab titles
-    private String[] tabs = { "PNR", "Train Status", "Train Schedule" };
+    private String[] tabs = { "PNR","Seat Availability", "Train Schedule" };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

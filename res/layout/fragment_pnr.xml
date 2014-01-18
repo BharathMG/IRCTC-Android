@@ -170,6 +170,15 @@
             android:text="Passenger Details"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#FFFFFF" />
+        
+        <ListView
+            android:id="@+id/passengers_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/header_text">
+            
+            
+        </ListView>
 
     </RelativeLayout>
 

@@ -4,6 +4,9 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="17" />
@@ -23,11 +26,12 @@
             </intent-filter>
         </activity>
     </application>
-    <supports-screens android:resizeable="true"
-                      android:smallScreens="true" 
-                      android:normalScreens="true" 
-                      android:largeScreens="true"
 
-                      android:anyDensity="true" />
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
 
 </manifest>

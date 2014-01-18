@@ -140,6 +140,7 @@ public enum CommunicationManager {
 
             url = new URL(host + requestPath);
 
+        System.out.println("Opening connection : " + url.toString());
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod(method);
         con.setDoOutput(method.equals("POST") || method.equals("PUT"));
