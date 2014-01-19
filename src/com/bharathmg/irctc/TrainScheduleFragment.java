@@ -23,11 +23,9 @@ public class TrainScheduleFragment extends Fragment {
 	private List<JSONObject> scheduleList;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		View rootView = inflater.inflate(R.layout.fragment_train_schedule,
-				container, false);
+		View rootView = inflater.inflate(R.layout.fragment_train_schedule, container, false);
 		listView = (ListView) rootView.findViewById(R.id.schedule_list);
 		scheduleList = new LinkedList<JSONObject>();
 		initAdapter();
@@ -35,8 +33,7 @@ public class TrainScheduleFragment extends Fragment {
 	}
 
 	private void initAdapter() {
-		TrainScheduleAdapter adapter = new TrainScheduleAdapter(this,
-				R.layout.schedule_list_item, scheduleList);
+		TrainScheduleAdapter adapter = new TrainScheduleAdapter(this, R.layout.schedule_list_item, scheduleList);
 		listView.setAdapter(adapter);
 	}
 
