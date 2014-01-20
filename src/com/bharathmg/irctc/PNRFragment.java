@@ -7,12 +7,17 @@ import android.os.Bundle;
 import android.support.v4.app.*;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bharathmg.irctc.adapter.PNRPassengersAdapter;
 import com.bharathmg.irctc.tasks.NetworkActionsLoader;
 import com.bharathmg.irctc.utils.HMACGenerator;
 
@@ -37,6 +42,8 @@ public class PNRFragment extends Fragment implements LoaderManager.LoaderCallbac
 	private TextView chart_view;
 	private TextView reserved_view;
 	private TextView class_view;
+	private TextView header_text;
+	private ListView list;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,8 +76,39 @@ public class PNRFragment extends Fragment implements LoaderManager.LoaderCallbac
 		boarding_point_view = (TextView) rootView.findViewById(R.id.boardin_point_view);
 		boarding_date_view = (TextView) rootView.findViewById(R.id.date_view);
 		class_view = (TextView) rootView.findViewById(R.id.class_view);
-
+		header_text = (TextView) rootView.findViewById(R.id.header_text);
+		list = (ListView) rootView.findViewById(R.id.passengers_list);
 		return rootView;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.pnr_menu, menu);
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+		case R.id.save:
+			// SAVE PNR
+			return true;
+
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	/*
@@ -103,6 +141,9 @@ public class PNRFragment extends Fragment implements LoaderManager.LoaderCallbac
 				for (int i = 0; i < passengers.length(); i++) {
 					passengers_list.add(passengers.getJSONObject(i));
 				}
+				
+				PNRPassengersAdapter adapter = new PNRPassengersAdapter(getActivity(), R.layout.passenger_list_item, passengers_list);
+				list.setAdapter(adapter);
 
 				from_view.setText(from_station_name);
 				from_code.setText(from_station_code);
@@ -115,6 +156,10 @@ public class PNRFragment extends Fragment implements LoaderManager.LoaderCallbac
 				class_view.setText(class_name);
 				chart_view.setText(chart_prep);
 				boarding_date_view.setText(doj);
+				
+				header_text.setText(no_passengers + " Passenger details");
+				
+				
 			}
 
 		} catch (JSONException e) {

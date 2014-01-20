@@ -6,13 +6,33 @@
     -->
     <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <!-- API 11 theme customizations can go here. -->
-         <item name="android:actionBarStyle">@style/AppActionBar</item>
-        
+          <item name="actionBarStyle">@style/AppActionBar</item>
+         <item name="actionMenuTextColor">#FFFFFF</item>
+        <item name="android:dropDownSelector">@android:color/white</item>
+        <item name="actionBarTabStyle">@style/MyActionBarTabs</item>
+        <item name="actionBarTabTextStyle">@style/TabTextStyle</item>
     </style>
 
-    <style name="AppActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-		<item name="android:textColor">@android:color/white</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
-        <item name="android:background">#5492ff</item>
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+         <item name="actionBarStyle">@style/AppActionBar</item>
+         <item name="actionMenuTextColor">#FFFFFF</item>
+        <item name="android:dropDownSelector">@android:color/white</item>
+        <item name="actionBarTabStyle">@style/MyActionBarTabs</item>
+        <item name="actionBarTabStyle">@style/MyActionBarTabs</item>
+        <item name="actionBarTabTextStyle">@style/TabTextStyle</item>
+        <item name="actionBarTabTextStyle">@style/TabTextStyle</item>
+    </style>
+    
+    <style name="MyActionBarTabs" parent="@style/Widget.AppCompat.ActionBar.TabView">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textStyle">normal</item>
+        <!-- Support library compatibility -->
+    </style>
+
+    <style name="TabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textColor">@android:color/darker_gray</item>
     </style>
 </resources>

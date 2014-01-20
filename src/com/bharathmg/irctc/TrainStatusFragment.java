@@ -17,7 +17,7 @@ public class TrainStatusFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_train_status, container, false);
-
+        
         return rootView;
     }
 

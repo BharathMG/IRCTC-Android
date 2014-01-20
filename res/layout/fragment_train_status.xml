@@ -61,8 +61,8 @@
             android:text="From"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <EditText
-            android:id="@+id/editText3"
+        <AutoCompleteTextView
+            android:id="@+id/from_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/textView2"
@@ -79,8 +79,8 @@
             android:text="To"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <EditText
-            android:id="@+id/editText4"
+        <AutoCompleteTextView
+            android:id="@+id/to_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/textView3"
@@ -111,7 +111,7 @@
             android:id="@+id/spinner1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editText4"
+            android:layout_below="@+id/to_text"
             android:layout_marginTop="30dp"
             android:layout_toRightOf="@+id/TextView01" />
 

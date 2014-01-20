@@ -15,8 +15,6 @@
          <item name="actionMenuTextColor">#FFFFFF</item>
         <item name="android:dropDownSelector">@android:color/white</item>
         <item name="actionBarTabStyle">@style/MyActionBarTabs</item>
-        <item name="actionBarTabStyle">@style/MyActionBarTabs</item>
-        <item name="actionBarTabTextStyle">@style/TabTextStyle</item>
         <item name="actionBarTabTextStyle">@style/TabTextStyle</item>
     </style>
 
@@ -34,12 +32,13 @@
     
     <style name="MyActionBarTabs" parent="@style/Widget.AppCompat.ActionBar.TabView">
         <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
         <item name="android:textStyle">normal</item>
         <!-- Support library compatibility -->
     </style>
 
     <style name="TabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">
-        <item name="android:textColor">#AA7EBF00</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
     </style>
 
     
