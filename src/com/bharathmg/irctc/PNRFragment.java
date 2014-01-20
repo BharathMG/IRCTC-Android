@@ -29,7 +29,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 /**
  * Created by bharathmg on 11/01/14.
  */
-public class PNRFragment extends Fragment implements LoaderManager.LoaderCallbacks<JSONObject> {
+public class PNRFragment extends ListFragment implements LoaderManager.LoaderCallbacks<JSONObject> {
 
 	private TextView from_view;
 	private TextView to_view;
@@ -43,14 +43,17 @@ public class PNRFragment extends Fragment implements LoaderManager.LoaderCallbac
 	private TextView reserved_view;
 	private TextView class_view;
 	private TextView header_text;
-	private ListView list;
+	private LinkedList<JSONObject> passengers_list;
+	private PNRPassengersAdapter adapter;
+	private EditText pnr_text;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View rootView = inflater.inflate(R.layout.fragment_pnr, container, false);
 		Button pnr_button = (Button) rootView.findViewById(R.id.pnr_button);
-		final EditText pnr_text = (EditText) rootView.findViewById(R.id.editText);
+		pnr_text = (EditText) rootView.findViewById(R.id.editText);
+		pnr_text.setText("4711741085");
 		pnr_button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -77,7 +80,6 @@ public class PNRFragment extends Fragment implements LoaderManager.LoaderCallbac
 		boarding_date_view = (TextView) rootView.findViewById(R.id.date_view);
 		class_view = (TextView) rootView.findViewById(R.id.class_view);
 		header_text = (TextView) rootView.findViewById(R.id.header_text);
-		list = (ListView) rootView.findViewById(R.id.passengers_list);
 		return rootView;
 	}
 
@@ -97,6 +99,14 @@ public class PNRFragment extends Fragment implements LoaderManager.LoaderCallbac
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		passengers_list = new LinkedList<JSONObject>();
+		adapter = new PNRPassengersAdapter(getActivity(), R.layout.passenger_list_item, passengers_list);
+		setListAdapter(adapter);
+		super.onActivityCreated(savedInstanceState);
 	}
 
 	@Override
@@ -137,14 +147,15 @@ public class PNRFragment extends Fragment implements LoaderManager.LoaderCallbac
 				String no_passengers = jsonObject.getString("no_of_passengers");
 				String chart_prep = jsonObject.getString("chart_prepared");
 				JSONArray passengers = jsonObject.getJSONArray("passengers");
-				List<JSONObject> passengers_list = new LinkedList<JSONObject>();
+				
+				passengers_list.clear();
 				for (int i = 0; i < passengers.length(); i++) {
 					passengers_list.add(passengers.getJSONObject(i));
 				}
 				
-				PNRPassengersAdapter adapter = new PNRPassengersAdapter(getActivity(), R.layout.passenger_list_item, passengers_list);
-				list.setAdapter(adapter);
-
+				adapter.notifyDataSetChanged();
+				
+				
 				from_view.setText(from_station_name);
 				from_code.setText(from_station_code);
 				to_view.setText(to_station_name);

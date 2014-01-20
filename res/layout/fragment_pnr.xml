@@ -70,8 +70,8 @@
                     android:layout_alignLeft="@+id/from_view"
                     android:layout_below="@+id/from_code"
                     android:src="@drawable/ic_fromto" />
-                
-                 <TextView
+
+                <TextView
                     android:id="@+id/to_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -87,9 +87,9 @@
                     android:id="@+id/to_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/to_view"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/to_view"
-                    android:layout_alignLeft="@id/to_view"
                     android:text="(DG)"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="#b8b8b8" />
@@ -151,7 +151,8 @@
                     android:id="@+id/TextView03"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/TextView01"
+                    android:layout_alignParentLeft="false"
+                    android:layout_below="@id/reserved_upto_view"
                     android:layout_marginLeft="10dp"
                     android:text="Boarding Point"
                     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -178,11 +179,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="false"
-                    android:layout_below="@id/TextView03"
+                    android:layout_below="@id/boardin_point_view"
                     android:layout_marginLeft="10dp"
                     android:text="Chart Status"
-                    android:textColor="#b1b0ae"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#b1b0ae" />
 
                 <TextView
                     android:id="@+id/chart_view"
@@ -223,7 +224,7 @@
                     android:id="@+id/class_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-					android:layout_alignParentRight="true"
+                    android:layout_alignParentRight="true"
                     android:layout_below="@id/chart_view"
                     android:layout_marginRight="20dp"
                     android:gravity="right"
@@ -235,12 +236,11 @@
                     android:id="@+id/TextView02"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/textView2"
+                    android:layout_below="@id/chart_view"
                     android:layout_marginLeft="10dp"
                     android:text="Class"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#b1b0ae" />
-
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
@@ -259,11 +259,47 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#FFFFFF" />
 
+        <LinearLayout
+            android:id="@+id/header_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header_text"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="SL/no"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="Reservation"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="Current"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
+
         <ListView
-            android:id="@+id/passengers_list"
+            android:id="@id/android:list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/header_text" >
+            android:layout_below="@id/header_tab" >
         </ListView>
     </RelativeLayout>
+
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

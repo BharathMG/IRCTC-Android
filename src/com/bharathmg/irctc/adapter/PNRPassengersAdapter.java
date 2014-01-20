@@ -19,8 +19,9 @@ public class PNRPassengersAdapter extends ArrayAdapter<JSONObject> {
 	private List<JSONObject> passengers_list;
 	private LayoutInflater inflater;
 	public PNRPassengersAdapter(Context context, int resource, List<JSONObject> jsonRows) {
-		super(context, resource);
+		super(context, resource,jsonRows);
 		this.passengers_list = jsonRows;
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
 	 @Override
