@@ -4,12 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <RelativeLayout
+        android:id="@+id/vserv_ads_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/vserv_ads_group"
         android:layout_marginLeft="10dp"
         android:text="12345"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -30,19 +36,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/vserv_ads_group"
         android:layout_marginRight="25dp"
+        android:layout_toRightOf="@id/textView1"
+        android:gravity="right"
         android:text="Chennai"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#7E7E7E" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_below="@+id/imageView1"
-        android:text="Dindigul"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#7E7E7E" />
 
@@ -54,14 +52,6 @@
         android:layout_centerHorizontal="true" >
     </ListView>
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView4"
-        android:layout_alignTop="@+id/textView2"
-        android:src="@drawable/ic_fromto" />
-
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
@@ -70,6 +60,26 @@
         android:layout_below="@+id/textView2"
         android:text="Small Text"
         android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#7E7E7E" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView3"
+        android:layout_below="@+id/textView3"
+        android:gravity="right"
+        android:src="@drawable/ic_fromto" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/imageView1"
+        android:layout_below="@+id/imageView1"
+        android:gravity="right"
+        android:text="Dindigul"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#7E7E7E" />
 
 </RelativeLayout>

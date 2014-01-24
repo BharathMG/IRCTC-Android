@@ -16,10 +16,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bharathmg.irctc.adapter.PNRPassengersAdapter;
 import com.bharathmg.irctc.tasks.NetworkActionsLoader;
 import com.bharathmg.irctc.utils.HMACGenerator;
+import com.bharathmg.irctc.utils.SecureConstants;
+
+import mobi.vserv.android.ads.ViewNotEmptyException;
+import mobi.vserv.android.ads.VservController;
+import mobi.vserv.android.ads.VservManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,11 +52,23 @@ public class PNRFragment extends ListFragment implements LoaderManager.LoaderCal
 	private LinkedList<JSONObject> passengers_list;
 	private PNRPassengersAdapter adapter;
 	private EditText pnr_text;
+	private VservController controller;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View rootView = inflater.inflate(R.layout.fragment_pnr, container, false);
+
+		VservManager renderAdManager = VservManager.getInstance(getActivity());
+		ViewGroup vservGroup = (ViewGroup) rootView.findViewById(R.id.vserv_ads_group);
+		try {
+			if (controller == null) {
+				controller = renderAdManager.renderAd("7f8ac297", vservGroup);
+				controller.setRefresh(30);
+			}
+
+		} catch (ViewNotEmptyException e) {
+		}
 		Button pnr_button = (Button) rootView.findViewById(R.id.pnr_button);
 		pnr_text = (EditText) rootView.findViewById(R.id.editText);
 		pnr_text.setText("4711741085");
@@ -59,8 +77,8 @@ public class PNRFragment extends ListFragment implements LoaderManager.LoaderCal
 			public void onClick(View view) {
 				String number = pnr_text.getText().toString();
 				Bundle bundle = new Bundle();
-				HMACGenerator generator = new HMACGenerator("jsonb2b2c68a2085589793c55ea75f218328" + number,
-						"2185656b756400d6220c8f80d5083835");
+				HMACGenerator generator = new HMACGenerator("json" + SecureConstants.public_key + number,
+						 SecureConstants.private_key);
 				System.out.println(generator.generateHMAC());
 				bundle.putString("url", "http://pnrbuddy.com/api/check_pnr/pnr/" + number
 						+ "/format/json/pbapikey/b2b2c68a2085589793c55ea75f218328/pbapisign/" + generator.generateHMAC());
@@ -100,7 +118,7 @@ public class PNRFragment extends ListFragment implements LoaderManager.LoaderCal
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		passengers_list = new LinkedList<JSONObject>();
@@ -147,15 +165,14 @@ public class PNRFragment extends ListFragment implements LoaderManager.LoaderCal
 				String no_passengers = jsonObject.getString("no_of_passengers");
 				String chart_prep = jsonObject.getString("chart_prepared");
 				JSONArray passengers = jsonObject.getJSONArray("passengers");
-				
+
 				passengers_list.clear();
 				for (int i = 0; i < passengers.length(); i++) {
 					passengers_list.add(passengers.getJSONObject(i));
 				}
-				
+
 				adapter.notifyDataSetChanged();
-				
-				
+
 				from_view.setText(from_station_name);
 				from_code.setText(from_station_code);
 				to_view.setText(to_station_name);
@@ -167,10 +184,9 @@ public class PNRFragment extends ListFragment implements LoaderManager.LoaderCal
 				class_view.setText(class_name);
 				chart_view.setText(chart_prep);
 				boarding_date_view.setText(doj);
-				
+
 				header_text.setText(no_passengers + " Passenger details");
-				
-				
+
 			}
 
 		} catch (JSONException e) {
