@@ -1,5 +1,8 @@
 package com.bharathmg.irctc;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -67,6 +71,43 @@ public class TrainStatusFragment extends Fragment {
 		class_spinner = (Spinner) rootView.findViewById(R.id.spinner1);
 		quota_spinner = (Spinner) rootView.findViewById(R.id.spinner2);
 
+		to_view.setThreshold(1);
+		to_view.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				final String search_key = s.toString();
+				handler.removeCallbacksAndMessages(null);
+				handler.removeCallbacks(null);
+				if (!search_key.isEmpty() && search_key != "") {
+					handler.postDelayed(new Runnable() {
+						public void run() {
+
+							String hmac_input = "json" + search_key + "1" + SecureConstants.public_key;
+							HMACGenerator generator = new HMACGenerator(hmac_input.toLowerCase(), SecureConstants.private_key);
+							RequestQueue queue = Volley.newRequestQueue(getActivity());
+
+							String url = "http://pnrbuddy.com/api/station_by_name/name/" + search_key + "/partial/1/format/json/pbapikey/"
+									+ SecureConstants.public_key + "/pbapisign/" + generator.generateHMAC();
+							System.out.println(url);
+							JsonObjectRequest jsonReq = new JsonObjectRequest(Method.GET, url, null, toViewPopulate(),
+									createMyReqErrorListener());
+							queue.add(jsonReq);
+						}
+					}, 1000);
+				}
+			}
+
+		});
+		from_view.setThreshold(1);
 		from_view.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -87,16 +128,16 @@ public class TrainStatusFragment extends Fragment {
 				if (!search_key.isEmpty() && search_key != "") {
 					handler.postDelayed(new Runnable() {
 						public void run() {
-							
-							String hmac_input = "json" + search_key + "0" + SecureConstants.public_key;
-							HMACGenerator generator = new HMACGenerator(hmac_input,
-									SecureConstants.private_key);
+
+							String hmac_input = "json" + search_key + "1" + SecureConstants.public_key;
+							HMACGenerator generator = new HMACGenerator(hmac_input.toLowerCase(), SecureConstants.private_key);
 							RequestQueue queue = Volley.newRequestQueue(getActivity());
 
-							JsonObjectRequest jsonReq = new JsonObjectRequest(
-									Method.GET,
-									"http://pnrbuddy.com/api/station_by_name/name/" + search_key + "/partial/0/format/json/pbapikey/" +SecureConstants.public_key+ "/pbapisign/" + generator.generateHMAC(),
-									null, createMyReqSuccessListener(), createMyReqErrorListener());
+							String url = "http://pnrbuddy.com/api/station_by_name/name/" + search_key + "/partial/1/format/json/pbapikey/"
+									+ SecureConstants.public_key + "/pbapisign/" + generator.generateHMAC();
+							System.out.println(url);
+							JsonObjectRequest jsonReq = new JsonObjectRequest(Method.GET, url, null, createMyReqSuccessListener(),
+									createMyReqErrorListener());
 							queue.add(jsonReq);
 						}
 					}, 1000);
@@ -117,19 +158,29 @@ public class TrainStatusFragment extends Fragment {
 		String quota_selected = quota_spinner.getSelectedItem().toString();
 	}
 
-	// name = delhi,partial=1,format=json,pbapikey
-
-	// format,name,partial,pbapikey
-	// String value = from_text.getText() + 1 + "json" + pbcdcmd;.tolowercase
-
 	private Response.Listener<JSONObject> createMyReqSuccessListener() {
 		return new Response.Listener<JSONObject>() {
 			@Override
 			public void onResponse(JSONObject response) {
 				try {
-					// mTvResult.setText(response.getString("one"));
+					if (response.getString("response_code").equals("200")) {
+						ArrayList<String> stations_list = new ArrayList<String>();
+						System.out.println(response.toString());
+						JSONArray stationsList = response.getJSONArray("stations");
+						for (int i = 0; i < stationsList.length(); i++) {
+							JSONObject stationObj = stationsList.getJSONObject(i);
+							String full_name = stationObj.getString("name");
+							String code_name = stationObj.getString("code");
+							String adapter_value = full_name + " (" + code_name + ")";
+							stations_list.add(adapter_value);
+						}
+						ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+								android.R.layout.simple_spinner_dropdown_item, stations_list);
+						from_view.setAdapter(adapter);
+						adapter.notifyDataSetChanged();
+						from_view.showDropDown();
+					}
 				} catch (Exception e) {
-					// mTvResult.setText("Parse error");
 				}
 			}
 		};
@@ -139,7 +190,33 @@ public class TrainStatusFragment extends Fragment {
 		return new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				// mTvResult.setText(error.getMessage());
+			}
+		};
+	}
+	private Response.Listener<JSONObject> toViewPopulate() {
+		return new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				try {
+					if (response.getString("response_code").equals("200")) {
+						ArrayList<String> stations_list = new ArrayList<String>();
+						System.out.println(response.toString());
+						JSONArray stationsList = response.getJSONArray("stations");
+						for (int i = 0; i < stationsList.length(); i++) {
+							JSONObject stationObj = stationsList.getJSONObject(i);
+							String full_name = stationObj.getString("name");
+							String code_name = stationObj.getString("code");
+							String adapter_value = full_name + " (" + code_name + ")";
+							stations_list.add(adapter_value);
+						}
+						ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+								android.R.layout.simple_spinner_dropdown_item, stations_list);
+						to_view.setAdapter(adapter);
+						adapter.notifyDataSetChanged();
+						to_view.showDropDown();
+					}
+				} catch (Exception e) {
+				}
 			}
 		};
 	}
